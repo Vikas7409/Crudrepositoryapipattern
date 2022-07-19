@@ -1,0 +1,38 @@
+using CrudRepositorypattern.Repository;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace CrudRepositorypattern.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class EmployeeController : Controller
+    {
+        private readonly IEmployeeRepository vikas;
+
+        public EmployeeController (IEmployeeRepository vikas)
+        {
+            this.vikas = vikas;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetEmployee()
+        {
+            try
+            {
+
+                return Ok(await vikas.GetEmployees());
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, 
+                    "Error in reterving data from database");
+            }
+        }
+    }
+}
